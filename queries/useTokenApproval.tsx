@@ -12,7 +12,7 @@ interface IUseApproveToken {
 }
 
 interface IApproveToken extends IUseApproveToken {
-  signer?: Signer;
+  signer?: Signer | null;
 }
 
 type UseTokenForMaxAmt = Omit<IUseApproveToken, 'amountToApprove'>;
@@ -65,7 +65,7 @@ export function useCheckTokenApproval() {
 }
 
 export function useApproveToken() {
-  const [{ data: signer }] = useSigner();
+  const { data: signer } = useSigner();
   const queryClient = useQueryClient();
 
   return useMutation<any, any, IApproveToken>(
@@ -80,7 +80,7 @@ export function useApproveToken() {
 }
 
 export function useApproveTokenForMaxAmt() {
-  const [{ data: signer }] = useSigner();
+  const { data: signer } = useSigner();
   const queryClient = useQueryClient();
 
   return useMutation<any, unknown, UseTokenForMaxAmt>(

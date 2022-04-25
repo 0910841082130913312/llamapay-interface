@@ -8,7 +8,7 @@ import useStreamsAndHistory from 'queries/useStreamsAndHistory';
 import { StreamIcon } from 'components/Icons';
 
 const Create: NextPage = () => {
-  const [{ data: accountData }] = useAccount();
+  const { data: accountData } = useAccount();
   const { unsupported } = useNetworkProvider();
 
   // keep query active in this page so when a stream is submitted this query is invalidated and the data is present when user is navigated to homepage

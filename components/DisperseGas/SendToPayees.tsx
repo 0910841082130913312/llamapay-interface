@@ -11,13 +11,13 @@ import { IStream } from 'types';
 export default function SendToPayees({ dialog }: { dialog: DisclosureState }) {
   const { data, isLoading, error } = useStreamsAndHistory();
 
-  const [{ data: accountData }] = useAccount();
+  const { data: accountData } = useAccount();
 
   const addresses = useAddressStore();
 
   const initialPayeeData = React.useMemo(() => {
     if (data && accountData) {
-      const accountAddress = accountData?.address.toLowerCase();
+      const accountAddress = accountData?.address?.toLowerCase();
       const newTable: { [key: string]: number } = {};
       data.streams?.forEach((p: IStream) => {
         if (accountAddress === p.payerAddress.toLowerCase()) {

@@ -11,7 +11,7 @@ interface PushProps {
 }
 
 export const Push = ({ data, buttonName }: PushProps) => {
-  const [{}, withdraw] = useContractWrite(
+  const { writeAsync: withdraw } = useContractWrite(
     {
       addressOrName: data.llamaContractAddress,
       contractInterface: llamaContract,
@@ -26,17 +26,18 @@ export const Push = ({ data, buttonName }: PushProps) => {
 
   const handleClick = () => {
     withdraw().then((data) => {
-      const loadingToast = data.error
-        ? toast.error(data.error?.message)
-        : toast.loading(buttonName === 'Withdraw' ? 'Withdrawing Payment' : 'Sending Payment');
-      data.data?.wait().then((receipt) => {
-        toast.dismiss(loadingToast);
-        receipt.status === 1
-          ? toast.success(buttonName === 'Withdraw' ? 'Successfully Withdrawn Payment' : 'Successfully Sent Payment')
-          : toast.error(buttonName === 'Withdraw' ? 'Failed to Withdraw Payment' : 'Failed to Send Payment');
+      // const loadingToast = data.error
+      //   ? toast.error(data.error?.message)
+      //   : toast.loading(buttonName === 'Withdraw' ? 'Withdrawing Payment' : 'Sending Payment');
+      // data.data?.wait().then((receipt) => {
+      //   toast.dismiss(loadingToast);
+      //   receipt.status === 1
+      //     ? toast.success(buttonName === 'Withdraw' ? 'Successfully Withdrawn Payment' : 'Successfully Sent Payment')
+      //     : toast.error(buttonName === 'Withdraw' ? 'Failed to Withdraw Payment' : 'Failed to Send Payment');
 
-        queryClient.invalidateQueries();
-      });
+      console.log(data);
+
+      queryClient.invalidateQueries();
     });
   };
 

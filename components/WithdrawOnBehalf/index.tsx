@@ -8,7 +8,7 @@ import WithdrawOnBehalfSubmit from './WithdrawOnBehalfSubmit';
 
 export default function WithdrawOnBehalf() {
   const customDialog = useDialogState();
-  const [{ data: accountData }] = useAccount();
+  const { data: accountData } = useAccount();
   const { unsupported } = useNetworkProvider();
   const { data: tokens, isLoading, error } = useTokenList();
   const [contract, setContract] = React.useState<string>('');

@@ -17,7 +17,7 @@ const DepositForm = ({ data, formDialog }: IFormProps) => {
 
   const transactionDialog = useDialogState();
 
-  const [{ data: accountData }] = useAccount();
+  const { data: accountData } = useAccount();
 
   const [inputAmount, setAmount] = React.useState('');
 

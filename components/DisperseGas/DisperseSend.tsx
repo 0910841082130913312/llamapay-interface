@@ -13,11 +13,10 @@ interface DisperseSendProps {
 }
 
 export default function DisperseSend({ dialog, data }: DisperseSendProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [{ data: network }] = useNetwork();
-  const [{}, disperseEther] = useContractWrite(
+  const { data: network } = useNetwork();
+  const { writeAsync: disperseEther, isLoading } = useContractWrite(
     {
-      addressOrName: networkDetails[Number(network.chain?.id)].disperseAddress,
+      addressOrName: networkDetails[Number(network?.id)]?.disperseAddress,
       contractInterface: disperseContract,
     },
     'disperseEther'
@@ -32,7 +31,7 @@ export default function DisperseSend({ dialog, data }: DisperseSendProps) {
       values.push(value.toString());
       ether = ether.plus(value);
     });
-    setIsLoading(true);
+
     disperseEther({
       args: [recipients, values],
       overrides: {
@@ -40,12 +39,13 @@ export default function DisperseSend({ dialog, data }: DisperseSendProps) {
       },
     }).then((data) => {
       dialog.hide();
-      setIsLoading(false);
-      const loading = data.error ? toast.error(data.error.message) : toast.loading('Dispersing Gas');
-      data.data?.wait().then((receipt) => {
-        toast.dismiss(loading);
-        receipt.status === 1 ? toast.success('Successfully Dispersed Gas') : toast.error('Failed to Disperse Gas');
-      });
+      // const loading = data.error ? toast.error(data.error.message) : toast.loading('Dispersing Gas');
+      // data.data?.wait().then((receipt) => {
+      //   toast.dismiss(loading);
+      //   receipt.status === 1 ? toast.success('Successfully Dispersed Gas') : toast.error('Failed to Disperse Gas');
+      // });
+
+      console.log(data);
     });
   }
 

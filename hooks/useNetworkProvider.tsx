@@ -6,13 +6,13 @@ import { useNetwork } from 'wagmi';
 export type Provider = ethers.providers.BaseProvider;
 
 export const useNetworkProvider = () => {
-  const [{ data }] = useNetwork();
+  const { data, activeChain } = useNetwork();
 
   const { pathname, query } = useRouter();
 
-  let chainId = data?.chain?.id ?? null;
+  let chainId = data?.id ?? null;
 
-  let name: string | null = data?.chain?.name ?? null;
+  let name: string | null = data?.name ?? null;
 
   if (pathname === '/streams' && !Number.isNaN(query.chainId)) {
     chainId = Number(query.chainId);
@@ -25,7 +25,7 @@ export const useNetworkProvider = () => {
     provider: chainDetails ? chainDetails.chainProviders : null,
     network: name,
     chainId,
-    nativeCurrency: data.chain?.nativeCurrency,
-    unsupported: data.chain?.unsupported,
+    nativeCurrency: data?.nativeCurrency,
+    unsupported: activeChain?.unsupported,
   };
 };

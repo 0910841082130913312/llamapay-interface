@@ -5,17 +5,15 @@ import { useNetwork } from 'wagmi';
 import classNames from 'classnames';
 
 export const NetworksMenu = () => {
-  const [{ data }, switchNetwork] = useNetwork();
-
-  const chain = data.chain;
+  const { activeChain, chains, switchNetwork } = useNetwork();
 
   const select = useSelectState({
-    defaultValue: data.chain?.id?.toString() ?? '0',
+    defaultValue: activeChain?.id?.toString() ?? '0',
     sameWidth: true,
     gutter: 8,
   });
 
-  if (!data || !chain || !switchNetwork) return null;
+  if (!chains || !activeChain || !switchNetwork) return null;
 
   return (
     <>
@@ -24,7 +22,7 @@ export const NetworksMenu = () => {
       </SelectLabel>
       <Select state={select} className="nav-button flex items-center justify-between gap-2">
         <>
-          <span>{chain.name ?? 'Unsupported'}</span>
+          <span>{activeChain.name ?? 'Unsupported'}</span>
           <SelectorIcon className="relative right-[-4px] h-4 w-4 text-gray-400" aria-hidden="true" />
         </>
       </Select>
@@ -33,7 +31,7 @@ export const NetworksMenu = () => {
           state={select}
           className="shadow-2 z-10 w-fit min-w-[10rem] rounded-xl border border-[#EAEAEA] bg-white p-2"
         >
-          {data.chains.map((value) => (
+          {chains.map((value) => (
             <SelectItem
               key={value.id}
               value={value.id?.toString()}
@@ -42,7 +40,7 @@ export const NetworksMenu = () => {
             >
               <div className="h-5 w-5">
                 <CheckIcon
-                  className={classNames('relative h-5 w-5', chain.id !== value.id && 'hidden')}
+                  className={classNames('relative h-5 w-5', activeChain.id !== value.id && 'hidden')}
                   aria-hidden="true"
                 />
               </div>

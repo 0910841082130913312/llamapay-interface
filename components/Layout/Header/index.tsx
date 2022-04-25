@@ -8,7 +8,7 @@ import Menu from './Menu';
 import { useTranslations } from 'next-intl';
 
 const Header = ({ onboardDialog }: { onboardDialog: DisclosureState }) => {
-  const [{ data }] = useAccount();
+  const { data } = useAccount();
 
   const walletDailog = useDialogState();
 

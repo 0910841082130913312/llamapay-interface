@@ -1,54 +1,43 @@
 import * as React from 'react';
-import { chains, defaultProvider, infuraId, networkDetails } from 'utils/constants';
-import { Connector, Provider, chain } from 'wagmi';
+import { Provider, createClient } from 'wagmi';
+import { providers } from 'ethers';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
-import { WalletLinkConnector } from 'wagmi/connectors/walletLink';
+import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
+import { alchemyId, chains, networkDetails } from 'utils/constants';
 
-const defaultChain = chain.avalanche;
-
-// Set up connectors
-type ConnectorsConfig = { chainId?: number };
-const connectors = ({ chainId }: ConnectorsConfig) => {
-  const rpcUrl = defaultChain.rpcUrls[0];
-  const chainDetails = chainId && networkDetails[chainId];
-
-  return [
-    new InjectedConnector({
-      chains,
-      options: { shimDisconnect: true },
-    }),
-    new WalletConnectConnector({
-      options: {
-        infuraId,
-        qrcode: true,
-      },
-    }),
-    new WalletLinkConnector({
-      options: {
-        appName: 'LlamaPay',
-        jsonRpcUrl: chainDetails ? chainDetails.rpcUrl : `${rpcUrl}/${infuraId}`,
-      },
-    }),
-  ];
-};
-
-// Set up providers
-type ProviderConfig = { chainId?: number; connector?: Connector };
-
-const provider = ({ chainId }: ProviderConfig) => {
-  const chainDetails = chainId && networkDetails[chainId];
-  return chainDetails ? chainDetails.chainProviders : defaultProvider;
-};
-
-type Props = {
+interface IProvider {
   children?: React.ReactNode;
-};
+}
 
-export const WalletProvider = ({ children }: Props) => {
-  return (
-    <Provider autoConnect connectors={connectors} provider={provider}>
-      {children}
-    </Provider>
-  );
+const client = createClient({
+  autoConnect: true,
+  provider(config) {
+    const network = config.chainId ? networkDetails[config.chainId] : false;
+    return network ? network.chainProviders : new providers.AlchemyProvider(config.chainId, alchemyId);
+  },
+  connectors(config) {
+    return [
+      new InjectedConnector({
+        chains: chains,
+      }),
+      new WalletConnectConnector({
+        options: {
+          qrcode: true,
+        },
+        chains: chains,
+      }),
+      new CoinbaseWalletConnector({
+        options: {
+          appName: 'LlamaPay',
+          chainId: config.chainId,
+        },
+        chains: chains,
+      }),
+    ];
+  },
+});
+
+export const WalletProvider = ({ children }: IProvider) => {
+  return <Provider client={client}>{children}</Provider>;
 };

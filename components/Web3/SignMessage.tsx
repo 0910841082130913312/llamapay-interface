@@ -5,7 +5,7 @@ import { useSignMessage } from 'wagmi';
 export const SignMessage = () => {
   const previousMessage = React.useRef<string>();
   const [message, setMessage] = React.useState('');
-  const [{ data, error, loading }, signMessage] = useSignMessage();
+  const { data, isError, isLoading, signMessage } = useSignMessage();
 
   const recoveredAddress = React.useMemo(() => {
     if (!data || !previousMessage.current) return undefined;
@@ -23,8 +23,8 @@ export const SignMessage = () => {
     >
       <label htmlFor="message">Enter a message to sign</label>
       <textarea id="message" placeholder="The quick brown fox…" onChange={(event) => setMessage(event.target.value)} />
-      <button disabled={loading || !message.length} className="border p-2">
-        {loading ? 'Check Wallet' : 'Sign Message'}
+      <button disabled={isLoading || !message.length} className="border p-2">
+        {isLoading ? 'Check Wallet' : 'Sign Message'}
       </button>
 
       {data && (
@@ -33,7 +33,7 @@ export const SignMessage = () => {
           <div className="break-all">Signature: {data}</div>
         </div>
       )}
-      {error && <div>{error?.message ?? 'Error signing message'}</div>}
+      {isError && <div>Error signing message</div>}
     </form>
   );
 };

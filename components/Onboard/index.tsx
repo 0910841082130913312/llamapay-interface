@@ -14,16 +14,16 @@ interface IOnboardProps {
 }
 
 export default function OnboardDialog({ dialog, className }: IOnboardProps) {
-  const [{ loading: connecting }] = useConnect();
+  const { isConnecting } = useConnect();
 
-  const [{ data: accountData, loading: accountDataLoading }] = useAccount();
+  const { data: accountData, isLoading: accountDataLoading } = useAccount();
 
   const [showCreateStream, setCreateStream] = React.useState(false);
 
   const mainHeader = () => {
     if (accountData) {
       return showCreateStream ? 'Create a new Stream' : 'Deposit Token';
-    } else if (connecting || accountDataLoading) {
+    } else if (isConnecting || accountDataLoading) {
       return 'Initializing';
     } else {
       return 'Connect your wallet';
@@ -115,7 +115,7 @@ export default function OnboardDialog({ dialog, className }: IOnboardProps) {
           </button>
         </header>
 
-        {accountData ? (
+        {accountData?.address ? (
           <>
             {showCreateStream ? (
               <CreateStreamField setCreateStream={setCreateStream} />

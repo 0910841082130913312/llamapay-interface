@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Connector, useAccount, useConnect } from 'wagmi';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { useIsMounted } from 'hooks';
 import { formatAddress } from 'utils/address';
 import { Dialog, DialogHeading, DisclosureState } from 'ariakit';
@@ -10,25 +10,14 @@ interface Props {
 }
 
 export const WalletSelector = ({ dialog }: Props) => {
-  const [{ data: accountData }, disconnect] = useAccount();
+  const { data: accountData } = useAccount();
+  const { disconnect } = useDisconnect();
 
   const isMounted = useIsMounted();
-  const [
-    {
-      data: { connectors },
-    },
-    connect,
-  ] = useConnect();
 
-  const handleConnect = React.useCallback(
-    async (connector: Connector) => {
-      await connect(connector);
-      dialog.toggle();
-    },
-    [connect, dialog]
-  );
+  const { connect, connectors } = useConnect();
 
-  const formattedAddress = accountData && formatAddress(accountData.address);
+  const formattedAddress = accountData?.address && formatAddress(accountData.address);
 
   return (
     <Dialog state={dialog} className="dialog">
@@ -46,9 +35,7 @@ export const WalletSelector = ({ dialog }: Props) => {
           </DialogHeading>
           <div className="mt-3 flex flex-col space-y-2">
             <p className="text-sm font-thin">{`Connected with ${accountData.connector?.name}`}</p>
-            <p className="break-words">
-              {accountData.ens?.name ? `${accountData.ens?.name} (${formattedAddress})` : accountData.address}
-            </p>
+            <p className="break-words">{formattedAddress}</p>
             <button
               className="nav-button"
               onClick={() => {
@@ -74,7 +61,7 @@ export const WalletSelector = ({ dialog }: Props) => {
           </DialogHeading>
           <div className="mt-3 flex flex-col space-y-2">
             {connectors.map((x) => (
-              <button key={x.id} onClick={() => handleConnect(x)} className="rounded border p-2">
+              <button key={x.id} onClick={() => connect(x)} className="rounded border p-2">
                 {isMounted ? x.name : x.id === 'injected' ? x.id : x.name}
               </button>
             ))}

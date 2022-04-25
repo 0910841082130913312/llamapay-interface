@@ -4,7 +4,7 @@ import { useStreamAndHistoryQuery } from 'services/generated/graphql';
 import { useAccount } from 'wagmi';
 
 const useStreamsAndHistory = () => {
-  const [{ data: accountData }] = useAccount();
+  const { data: accountData } = useAccount();
   const { provider, network } = useNetworkProvider();
 
   // get subgraph endpoint
@@ -15,7 +15,7 @@ const useStreamsAndHistory = () => {
       endpoint,
     },
     {
-      id: accountData?.address.toLowerCase() ?? '',
+      id: accountData?.address?.toLowerCase() ?? '',
       network: network || '',
     },
     {

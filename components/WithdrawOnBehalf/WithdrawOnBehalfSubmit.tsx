@@ -24,10 +24,9 @@ export default function WithdrawOnBehalfSubmit({
   amount,
   duration,
 }: WithdrawOnBehalfSubmitProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const provider = useProvider();
 
-  const [{}, withdraw] = useContractWrite(
+  const { writeAsync: withdraw, isLoading } = useContractWrite(
     {
       addressOrName: contract,
       contractInterface: llamaContract,
@@ -43,15 +42,17 @@ export default function WithdrawOnBehalfSubmit({
     } else if (duration === 'year') {
       amountPerSec = new BigNumber(amount * 1e20).div(secondsByDuration.year).toFixed(0);
     }
-    setIsLoading(true);
+
     withdraw({ args: [payer, payee, amountPerSec] }).then((data) => {
       dialog.hide();
-      setIsLoading(false);
-      const loading = data.error ? toast.error(data.error.message) : toast.loading('Sending Funds');
-      data.data?.wait().then((receipt) => {
-        toast.dismiss(loading);
-        receipt.status === 1 ? toast.success('Funds Successfully Sent') : toast.error('Error Sending Funds');
-      });
+
+      // const loading = data.error ? toast.error(data.error.message) : toast.loading('Sending Funds');
+      // data.data?.wait().then((receipt) => {
+      //   toast.dismiss(loading);
+      //   receipt.status === 1 ? toast.success('Funds Successfully Sent') : toast.error('Error Sending Funds');
+      // });
+
+      console.log(data);
     });
   }
 

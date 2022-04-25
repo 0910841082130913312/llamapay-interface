@@ -29,7 +29,7 @@ const Balance = () => {
 
   const { data: tokens } = useTokenBalances();
 
-  const [{ data: accountData }] = useAccount();
+  const { data: accountData } = useAccount();
 
   const handleToken = (actionType: TokenAction, balance: IBalance) => {
     if (actionType === 'deposit') {
@@ -173,7 +173,7 @@ const Balance = () => {
           </>
         )}
 
-        {tokens && accountData && (
+        {tokens && accountData?.address && (
           <DepositField tokens={tokens} userAddress={accountData.address} dialog={depositFieldDialog} />
         )}
       </section>

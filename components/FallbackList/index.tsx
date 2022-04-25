@@ -9,7 +9,7 @@ interface FallbackProps {
 }
 
 const Fallback = ({ isLoading, isError, noData, type }: FallbackProps) => {
-  const [{ data: accountData }] = useAccount();
+  const { data: accountData } = useAccount();
 
   const { unsupported } = useNetworkProvider();
 

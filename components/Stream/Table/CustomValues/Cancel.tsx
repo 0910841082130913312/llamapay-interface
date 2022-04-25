@@ -10,7 +10,7 @@ interface CancelProps {
 }
 
 export const Cancel = ({ data }: CancelProps) => {
-  const [{}, cancel] = useContractWrite(
+  const { writeAsync: cancel } = useContractWrite(
     {
       addressOrName: data.llamaContractAddress,
       contractInterface: llamaContract,
@@ -25,12 +25,14 @@ export const Cancel = ({ data }: CancelProps) => {
 
   const handleClick = () => {
     cancel().then((data) => {
-      const loadingToast = data.error ? toast.error(data.error.message) : toast.loading('Cancelling Stream');
-      data.data?.wait().then((receipt) => {
-        toast.dismiss(loadingToast);
-        receipt.status === 1 ? toast.success('Stream Cancelled') : toast.error('Failed to Cancel Stream');
-        queryClient.invalidateQueries();
-      });
+      // const loadingToast = data.error ? toast.error(data.error.message) : toast.loading('Cancelling Stream');
+      // data.data?.wait().then((receipt) => {
+      //   toast.dismiss(loadingToast);
+      //   receipt.status === 1 ? toast.success('Stream Cancelled') : toast.error('Failed to Cancel Stream');
+      //   queryClient.invalidateQueries();
+      // });
+
+      console.log(data);
     });
   };
 

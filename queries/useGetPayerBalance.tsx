@@ -45,10 +45,10 @@ const fetchBalance = async (
 };
 
 function useGetPayerBalance(contracts: ITokenLists[] | null, tokensKey: string) {
-  const [{ data: accountData }] = useAccount();
+  const { data: accountData } = useAccount();
   const { provider } = useNetworkProvider();
 
-  const payerAddress = accountData?.address.toLowerCase() ?? '';
+  const payerAddress = accountData?.address?.toLowerCase() ?? '';
 
   return useQuery<IBalance[] | null>(
     ['payerBalance', payerAddress, tokensKey],

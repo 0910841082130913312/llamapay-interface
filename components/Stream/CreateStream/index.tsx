@@ -10,7 +10,7 @@ import { StreamIcon } from 'components/Icons';
 import useTokenBalances from 'queries/useTokenBalances';
 
 export const CreateStream = () => {
-  const [{ data: accountData, loading: accountDataLoading }] = useAccount();
+  const { data: accountData, isLoading: accountDataLoading } = useAccount();
 
   const { noBalances, isLoading, isError } = useBalances();
 

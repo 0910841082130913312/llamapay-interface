@@ -5,15 +5,9 @@ import { Connector, useAccount, useConnect } from 'wagmi';
 
 const ConnectWallet = () => {
   const isMounted = useIsMounted();
-  const [
-    {
-      data: { connectors },
-      loading: connecting,
-    },
-    connect,
-  ] = useConnect();
+  const { activeConnector, connect, connectors, error, isConnecting, pendingConnector } = useConnect();
 
-  const [{ data: accountData, loading: accountDataLoading }] = useAccount();
+  const { data: accountData, isLoading: accountDataLoading } = useAccount();
 
   const handleConnect = React.useCallback(
     async (connector: Connector) => {
@@ -22,7 +16,7 @@ const ConnectWallet = () => {
     [connect]
   );
 
-  const hideConnectors = connecting || accountDataLoading;
+  const hideConnectors = isConnecting || accountDataLoading;
 
   return (
     <div className="mt-12 flex flex-1 flex-col overflow-auto sm:mt-[104px]">

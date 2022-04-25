@@ -7,7 +7,7 @@ import SendToPayees from './SendToPayees';
 
 function DisperseGasMoney() {
   const disperseDialog = useDialogState();
-  const [{ data: accountData }] = useAccount();
+  const { data: accountData } = useAccount();
   const { unsupported, nativeCurrency } = useNetworkProvider();
 
   return (

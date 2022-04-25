@@ -13,7 +13,7 @@ interface IUseModifyStream {
 }
 
 interface IModifyStream extends IUseModifyStream {
-  signer?: Signer;
+  signer?: Signer | null;
 }
 
 interface QueryError {
@@ -47,7 +47,7 @@ const modifyStream = async ({
 };
 
 export default function useModifyStream() {
-  const [{ data: signer }] = useSigner();
+  const { data: signer } = useSigner();
   const queryClient = useQueryClient();
 
   return useMutation<QueryResponse, QueryError, IUseModifyStream>(

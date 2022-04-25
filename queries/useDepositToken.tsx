@@ -10,7 +10,7 @@ interface IUseDepositToken {
 }
 
 interface IDepositToken extends IUseDepositToken {
-  signer?: Signer;
+  signer?: Signer | null;
 }
 
 const deposit = async ({ signer, llamaContractAddress, amountToDeposit }: IDepositToken) => {
@@ -27,7 +27,7 @@ const deposit = async ({ signer, llamaContractAddress, amountToDeposit }: IDepos
 };
 
 export default function useDepositToken() {
-  const [{ data: signer }] = useSigner();
+  const { data: signer } = useSigner();
   const queryClient = useQueryClient();
 
   return useMutation(
