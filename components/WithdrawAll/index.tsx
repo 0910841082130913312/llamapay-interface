@@ -1,7 +1,7 @@
+import * as React from 'react';
 import { useNetworkProvider } from 'hooks';
 import useStreamsAndHistory from 'queries/useStreamsAndHistory';
 import useBatchCalls from 'queries/useBatchCalls';
-import React from 'react';
 import { useAccount } from 'wagmi';
 import { CashIcon } from '@heroicons/react/outline';
 import { LlamaContractInterface } from 'utils/contract';
@@ -53,7 +53,7 @@ export default function WithdrawAll() {
     <button
       onClick={handleClick}
       disabled={!accountData || unsupported}
-      className="flex w-full items-center justify-between gap-4 whitespace-nowrap"
+      className="flex w-full items-center justify-between gap-4 whitespace-nowrap dark:text-white dark:hover:text-[#cccccc]"
     >
       <span>{t('sendAll')}</span>
       <CashIcon className="h-4 w-4" />

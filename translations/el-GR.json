@@ -22,6 +22,7 @@
     "history": "Ιστορικό",
     "edit": "Επεξεργασία",
     "update": "Ενημέρωση",
+    "week": "εβδομάδα",
     "month": "Μήνας",
     "year": "Έτος",
     "close": "Κλείσιμο",
@@ -41,7 +42,9 @@
     "streamHistory": "Ιστορικό Ροών",
     "eventType": "Event Type",
     "timestamp": "Χρονοσφραγίδα",
-    "you": "Εσείς"
+    "you": "Εσείς",
+    "lightTheme": "Ελαφρύ θέμα",
+    "darkTheme": "Σκούρο θέμα"
   },
   "Header": {
     "connectWallet": "Σύνδεση Πορτοφολιού",
@@ -104,7 +107,8 @@
     "streamCreated": "Η Ροή δημιουργήθηκε",
     "streamModified": "Η Ροή τροποποιήθηκε",
     "streamCancelled": "Η Ροή ακυρώθηκε",
-    "viewTransactionOnExplorer": "Προβολή συναλλαγής στο {name}"
+    "viewTransactionOnExplorer": "Προβολή συναλλαγής στο {name}",
+    "invoice": "τιμολόγιο"
   },
   "Payees": {
     "connectWallet": "Συνδέστε το πορτοφόλι σας για να δείτε τη λίστα δικαιούχων",

@@ -62,12 +62,12 @@ export function DepositForm({
 
   const disableApprove = checkingApproval || approvingToken;
 
-  const t0 = useTranslations('Common')
-  const t1 = useTranslations('Forms')
-  const t2 = useTranslations('Onboard')
+  const t0 = useTranslations('Common');
+  const t1 = useTranslations('Forms');
+  const t2 = useTranslations('Onboard');
 
   return (
-    <div className="mx-auto flex w-full flex-1 flex-col overflow-auto px-7 pt-12 pb-7 sm:pt-[104px]">
+    <div className="mx-auto flex w-full flex-1 flex-col overflow-auto px-7 pt-12 pb-7">
       <form className="flex flex-1 flex-col gap-8" onSubmit={handleSubmit}>
         <div>
           <SelectToken
@@ -112,7 +112,7 @@ export function DepositForm({
       </form>
 
       <button
-        className="form-submit-button mx-auto mt-7 flex w-full max-w-xs items-center justify-center gap-2 bg-white text-[#23BD8F]"
+        className="form-submit-button mx-auto mt-7 flex w-full max-w-xs items-center justify-center gap-2 bg-white text-[#23BD8F] dark:border-[#1BDBAD] dark:bg-[#23BD8F] dark:text-white"
         onClick={() => setCreateStream(true)}
       >
         <span>{t2('createAStream')}</span>
